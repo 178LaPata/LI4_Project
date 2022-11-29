@@ -1,0 +1,182 @@
+Use Cases
+
+ - Registar utilizador : como feirante ou como cliente
+ - Fazer login
+ - Terminar sessão 
+ - Adicionar feira
+ - Adicionar feirante  -- not
+ - Adicionar produtos
+ - Adicionar empresa
+ - Fazer comentário em Feirante ou Feira
+ - Adicionar feira/feirante ou produto à lista de favoritos
+ - Consultar estatísticas
+ - Pesquisar produto/feirante/feira
+ - Remover da lista de favoritos
+ - Filtrar feira por data,categoria,empresa,localização
+ - Reportar erro 
+ - Consultar lista de feiras sugeridas
+ - Notificar um utilizador
+ 
+
+
+Use Case: Registar Utilizador
+Descrição: Utilizador pretende criar uma conta
+Pré-Condição: Utilizador não está autenticado
+Pós-Condição: Utilizador fica registado no sistema
+Fluxo Normal:
+    1. Utilizador indica que se quer registar na aplicação
+     2. Sistema solicita dados necessários para o registo(Nome de Utilizador, email, palavra-passe)
+    3. Utilizador preenche dados necessários
+    4. Sistema pede para escolher se utilizador é "Cliente" ou "Feirante"
+    5. Utilizador escolhe uma opção
+    6. Utilizador indica que pretende submeter registo
+    7. Sistema verifica a validade dos dados 
+    8. Sistema regista o utilizador
+    9. Sistema mostra uma notificação de sucesso no registo
+
+Fluxo Excepcional 1:[Utilizador Cancela Registo](Passo 6)
+    6.1. Utilizador cancela o registo
+    6.2. Sistema não regista Utilizador
+
+Fluxo Excepcional 2:[Dados Inválidos](Passo 7)
+    7.1. Sistema informa que os dados inseridos não são válidos
+    7.2.  Volta a 3
+
+Use Case: Fazer login
+Descrição: Utilizador pretende iniciar sessão
+Pré-Condição: Utilizador não Está autenticado e está registado no Sistema
+Pós-Condição: Utilizador fica autenticado no sistema
+Fluxo Normal:
+	1. Sistema solicita ao utilizador o seu nome de utilizador e palavra-passe
+	2. Utilizador insere os dados
+	3. Sistema verifica se o nome de utilizador existe e está associado à palavra-passe inserida
+	4. Dados estão corretos e o Utilizador fica autenticado no Sistema
+
+Fluxo Alternativo (1): [Nome de utilizador não existe ou palavra-passe está errada] (3)
+	3.1 Regressa ao passo 1.
+
+
+
+
+Use Case: Terminar Sessão
+Descrição: Utilizador pretende terminar a sessão
+Pré-Condição: Utilizador está autenticado
+Pós-Condição: Utilizador deixa de estar autenticado no sistema
+Fluxo Normal: 
+	1. Sistema pergunta ao Utilizador se pretende mesmo terminar a sessão
+	2. Utilizador responde que sim
+	3. Sistema termina a sessão do utilizador
+
+Fluxo de Exceção (1): [Utilizador responde que não] (2)
+	2.1 Operação Cancelada
+
+
+
+Use Case: Adicionar Feira 
+Descrição: Utilizador pretende adicionar uma feira
+Pré-Condição: Utilizador está autenticado e é do tipo Feirante ou Administrador
+Pós-Condição: Feira fica registada na Base de Dados do Sistema
+Fluxo Normal:
+	1. Sistema pede ao Utilizador as informações acerca da Feira (Nome, Localização, Data, Categoria, Lista de Empresas (ficheiro csv com as informacoes de cada empresa (Nome, Categoria)) e Lista de Produtos (ficheiro csv com as informacoes de cada produto (Nome, ID, Descrição, Categoria, Empresa))
+	2. Utilizador fornece ao Sistema todas as informações solicitadas
+	3. Sistema verifica se existe alguma feira com as mesmas informações
+	4. Sistema Adiciona Feira à Base de Dados
+
+Fluxo de Exceção (1): [Existe feira com mesmas informações] (3)
+	3.1 Operação Cancelada
+
+
+
+Use Case:  Fazer comentário em Feirante ou Feira
+Descrição: Utilizador pretende comentar um Feirante ou Feira
+Pré-Condição: Utilizador tem sessão iniciada
+Pós-Condição: Comentário fica registado no Sistema
+Fluxo Normal:
+	1. Sistema apresenta ao utilizador uma pagina para deixar o comentario
+	2. Utilizador escreve o seu comentário e submete o mesmo
+	3. Sistema verifica se o comentário é apropriado
+	4. Sistema regista comentário
+
+Fluxo Alternativo (1): [Comentário não é apropriado] (3)
+	3.1 Sistema informa ao utilizador que o comentário não é apropriado
+	3.2 Regressa ao passo 1
+ 
+Fluxo de Exceção (2): [Utilizador cancela o comentário] (2)
+	2.1 Operação Cancelada
+
+
+Use Case:  Adicionar feira/feirante/produto à lista de favoritos
+Descrição: Utilizador pretende adicionar um feirante/feira/produto a sua lista de favoritos
+Pré-Condição: Utilizador tem sessão iniciada e esta na pagina de uma feira, feirante ou produto
+Pós-Condição: Feira/Feirante/Produto fica guardado na lista de favoritos do Utilizador  
+Fluxo Normal:
+	1. Sistema verifica o que o utilizador pretende adicionar aos favoritos e guarda na lista respectiva e avisa o utilizador do mesmo 
+
+
+Use Case:  Consultar estatísticas
+Descrição:  Feirante/Empresa pretende consultar as suas estatisticas
+Pré-Condição:  Utilizador tem sessão iniciada e é do tipo Feirante/Empresa
+Pós-Condição:  As estatísticas são apresentadas ao utilizador
+Fluxo Normal:
+	1. Sistema procura na Base de Dados as estatísticas acerca do Feirante/Empresa (numero de entradas na pagina, cliques no link, numero de pessoas que adicionaram aos favoritos, quantos produtos adicionaram aos favoritos)
+	2. Sistema apresenta essa informação ao Utilizador
+
+Use Case:  Pesquisar produto/feirante/feira
+Descrição:  Utilizador pretende pesquisar um produto/feirante/feira
+Pré-Condição:  True
+Pós-Condição:  É apresentada ao utilizador a informação pesquisada
+Fluxo Normal:
+	1. Sistema apresenta ao utilizador uma barra de pesquisa
+	2. Utilizador escreve a informação que pretende pesquisar
+	3. Sistema procura na sua base de dados a informação
+	4. Sistema apresentada a informação
+
+Fluxo de Exceção (1): [informação não encontrada] (3)
+	3.1 Sistema avisa o Utilizador que a informação pesquisada não corresponde a nenhuma informação n na Base de Dados
+
+Use Case:  Remover da lista de favoritos
+Descrição:  Utilizador pretende remover da sua lista de favoritos algo 
+Pré-Condição:  Utilizador tem sessão iniciada
+Pós-Condição:  A lista de favoritos do Utilizador deixa de ter o que ele pretende remover
+Fluxo Normal:
+	1. Sistema apresenta ao Utilizador a sua lista de favoritos
+	2. Utilizador seleciona os itens que quer remover da sua lista de favoritos
+	3. Sistema remove o que o Utilizador selecionou da sua lista de favoritos
+
+
+
+Use Case:  Filtrar feira por data,categoria,empresa,localização
+Descrição:  Utilizador pretende pesquisar uma feira e filtrar a sua data, categoria, empresa, localização 
+Pré-Condição:  Utilizador está a procurar uma feira
+Pós-Condição:  É apresentada ao utilizador a informação da sua pesquisa com os filtros aplicados
+Fluxo Normal:
+	1. Sistema apresentada ao utilizador uma lista de filtros
+	2. Utilizador indica os filtros a aplicar
+	3. Sistema procura a informação filtrada na Base de Dados
+	4. Sistema apresenta a informação filtrada
+
+Fluxo de Exceção (1): [informação fil não encontrada] (3)
+	3.1 Sistema avisa o Utilizador que a informação pesquisada não corresponde a nenhuma informação n na Base de Dados
+
+
+
+Use Case:  Reportar erro 
+Descrição:  Utilizador encontra um erro na aplicação e pretende avisar os desenvolvedores acerca do mesmo
+Pré-Condição:  Utilizador tem sessão iniciada
+Pós-Condição:  Erro é reportado aos desenvolvedores
+Fluxo Normal:
+	1. Sistema solicita ao Utilizador que descreva o erro e/ou anexe ficheiros de demonstração
+	2. Sistema verifica se a descrição é apropriada (não possui calão)
+	3. Sistema guarda a descrição do erro
+
+Fluxo de Exceção (1): [descrição não é apropriada] (2)
+	2.1 Operação Cancelada
+
+
+Use Case:  Consultar lista de feiras sugeridas
+Descrição:  Utilizador pretende saber quais sao as listas sugeridas 
+Pré-Condição:  True
+Pós-Condição:  Informação é apresentada ao utilizador
+Fluxo Normal:
+	1. Sistema procura na Base de Dados as feiras sugeridas (com mais visitas nos ultimos 7 dias e com mais Produtos adicionados aos favoritos)
+	2. Sistema apresentada a informação ao Utilizador
